@@ -24,14 +24,6 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
-Create a default fully qualified client name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-*/}}
-{{- define "elasticsearch.client.fullname" -}}
-{{ template "elasticsearch.fullname" . }}-{{ .Values.client.name }}
-{{- end -}}
-
-{{/*
 Create a default fully qualified data name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}

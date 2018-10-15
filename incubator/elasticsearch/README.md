@@ -75,20 +75,6 @@ The following table lists the configurable parameters of the elasticsearch chart
 | `cluster.keystoreSecret`             | Name of secret holding secure config options in an es keystore      | `nil`                                               |
 | `cluster.env`                        | Cluster environment variables                                       | `{MINIMUM_MASTER_NODES: "2"}`                       |
 | `cluster.additionalJavaOpts`         | Cluster parameters to be added to `ES_JAVA_OPTS` environment variable | `""`                                              |
-| `client.name`                        | Client component name                                               | `client`                                            |
-| `client.replicas`                    | Client node replicas (deployment)                                   | `2`                                                 |
-| `client.resources`                   | Client node resources requests & limits                             | `{} - cpu limit must be an integer`                 |
-| `client.priorityClassName`           | Client priorityClass                                                | `nil`                                               |
-| `client.heapSize`                    | Client node heap size                                               | `512m`                                              |
-| `client.podAnnotations`              | Client Deployment annotations                                       | `{}`                                                |
-| `client.nodeSelector`                | Node labels for client pod assignment                               | `{}`                                                |
-| `client.tolerations`                 | Client tolerations                                                  | `[]`                                                |
-| `client.serviceAnnotations`          | Client Service annotations                                          | `{}`                                                |
-| `client.serviceType`                 | Client service type                                                 | `ClusterIP`                                         |
-| `client.loadBalancerIP`              | Client loadBalancerIP                                               | `{}`                                                |
-| `client.loadBalancerSourceRanges`    | Client loadBalancerSourceRanges                                     | `{}`                                                |
-| `client.antiAffinity`                | Client anti-affinity policy                                         | `soft`                                              |
-| `client.nodeAffinity`                | Client node affinity policy                                         | `{}`                                                |
 | `master.exposeHttp`                  | Expose http port 9200 on master Pods for monitoring, etc            | `false`                                             |
 | `master.name`                        | Master component name                                               | `master`                                            |
 | `master.replicas`                    | Master node replicas (deployment)                                   | `2`                                                 |
