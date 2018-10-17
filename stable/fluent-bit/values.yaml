@@ -102,7 +102,7 @@ resources:
 ## Node tolerations for fluent-bit scheduling to nodes with taints
 ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
 ##
-tolerations: []
+tolerations: [{key: "node-role.kubernetes.io/master", effect: "NoSchedule"}, {key: "dedicated", operator: "Exists"}]
 # - key: "key"
 #  operator: "Equal|Exists"
 #  value: "value"
