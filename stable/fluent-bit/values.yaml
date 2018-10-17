@@ -16,15 +16,15 @@ metrics:
     type: ClusterIP
 
 # When enabled, fluent-bit will keep track of tailing offsets across pod restarts.
-trackOffsets: false
+trackOffsets: true
 
 backend:
-  type: forward
+  type: es
   forward:
     host: fluentd
     port: 24284
   es:
-    host: elasticsearch
+    host: ks-logging-elasticsearch-data.logging.svc
     port: 9200
     # Elastic Index Name
     index: kubernetes_cluster
@@ -37,7 +37,7 @@ backend:
     http_passwd:
     # Optional TLS encryption to ElasticSearch instance
     tls: "off"
-    tls_verify: "on"
+    tls_verify: "off"
     # TLS certificate for the Elastic (in PEM format). Use if tls=on and tls_verify=on.
     tls_ca: ""
     # TLS debugging levels = 1-5
