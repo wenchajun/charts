@@ -15,6 +15,11 @@ metrics:
     port: 2020
     type: ClusterIP
 
+volumes:
+  varlibdockercontainers:
+    mountPath: /data/var/lib/docker/containers
+    hostPath: /data/var/lib/docker/containers
+
 # When enabled, fluent-bit will keep track of tailing offsets across pod restarts.
 trackOffsets: true
 
