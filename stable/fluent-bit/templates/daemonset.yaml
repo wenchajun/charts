@@ -44,7 +44,7 @@ spec:
         - name: varlog
           mountPath: /var/log
         - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
+          mountPath: {{ .Values.volumes.varlibdockercontainers.mountPath }}
           readOnly: true
         - name: config
           mountPath: /fluent-bit/etc/fluent-bit.conf
@@ -86,7 +86,7 @@ spec:
           path: /var/log
       - name: varlibdockercontainers
         hostPath:
-          path: /var/lib/docker/containers
+          path: {{ .Values.volumes.varlibdockercontainers.hostPath }}
 {{- if .Values.backend.es.tls_ca }}
       - name: es-tls-secret
         secret:
