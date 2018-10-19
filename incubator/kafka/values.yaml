@@ -194,7 +194,7 @@ persistence:
   ## The size of the PersistentVolume to allocate to each Kafka Pod in the StatefulSet. For
   ## production servers this number should likely be much larger.
   ##
-  size: "1Gi"
+  size: "20Gi"
 
   ## The location within the Kafka container where the PV will mount its storage and Kafka will
   ## store its logs.
@@ -368,7 +368,7 @@ topics: []
 zookeeper:
   ## If true, install the Zookeeper chart alongside Kafka
   ## ref: https://github.com/kubernetes/charts/tree/master/incubator/zookeeper
-  enabled: true
+  enabled: false 
 
   ## Configure Zookeeper resource requests and limits
   ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -390,7 +390,7 @@ zookeeper:
     PullPolicy: "IfNotPresent"
 
   ## If the Zookeeper Chart is disabled a URL and port are required to connect
-  url: ""
+  url: "ks-logging-zookeeper.logging.svc"
   port: 2181
 
   ## Pod scheduling preferences (by default keep pods within a release on separate nodes).

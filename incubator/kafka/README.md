@@ -163,7 +163,7 @@ Once you have the testclient pod above running, you can list all kafka
 topics with:
 
 ` kubectl -n kafka exec -ti testclient -- ./bin/kafka-topics.sh --zookeeper
-my-release-zookeeper:2181 --list`
+ks-logging-zookeeper.logging.svc:2181 --list`
 
 Where `my-release` is the name of your helm release.
 
