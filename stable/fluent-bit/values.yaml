@@ -24,7 +24,8 @@ volumes:
 trackOffsets: true
 
 backend:
-  type: [es, kafka]
+  # Fluent-bit output plugin config, can specify multiple output simultaneously using slice, eg. [es, kafka]
+  type: [es]
   forward:
     host: fluentd
     port: 24284
@@ -34,7 +35,7 @@ backend:
     # Elastic Index Name
     index: kubernetes_cluster
     type: flb_type
-    logstash_prefix: kubernetes_cluster
+    logstash_prefix: logstash
     time_key: "@timestamp"
     # Optional username credential for Elastic X-Pack access
     http_user:
@@ -49,7 +50,7 @@ backend:
     tls_debug: 1
   kafka:
     brokers: "ks-logging-kafka-headless.logging.svc:9092"
-    topics: logging
+    topics: k8s-log
   splunk:
     host: 127.0.0.1
     port: 8088
