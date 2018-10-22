@@ -24,7 +24,7 @@ volumes:
 trackOffsets: true
 
 backend:
-  type: es
+  type: [es, kafka]
   forward:
     host: fluentd
     port: 24284
@@ -47,6 +47,9 @@ backend:
     tls_ca: ""
     # TLS debugging levels = 1-5
     tls_debug: 1
+  kafka:
+    brokers: "ks-logging-kafka-headless.logging.svc:9092"
+    topics: logging
   splunk:
     host: 127.0.0.1
     port: 8088

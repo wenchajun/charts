@@ -1,15 +1,20 @@
 fluent-bit is now running.
 
-{{- if eq .Values.backend.type "forward" }}
+{{- range .Values.backend.type }}
+{{- if eq . "forward" }}
 
-It will forward all container logs to the svc named {{ .Values.backend.forward.host }} on port: {{ .Values.backend.forward.port }}
-{{- else if eq .Values.backend.type "es" }}
+It will forward all container logs to the svc named {{ $.Values.backend.forward.host }} on port: {{ $.Values.backend.forward.port }}
+{{- else if eq . "es" }}
 
-It will forward all container logs to the svc named {{ .Values.backend.es.host }} on port: {{ .Values.backend.es.port }}
-{{- else if eq .Values.backend.type "http" }}
+It will forward all container logs to the svc named {{ $.Values.backend.es.host }} on port: {{ $.Values.backend.es.port }}
+{{- else if eq . "kafka" }}
 
-It will forward all container logs to the svc named {{ .Values.backend.http.host }} on port: {{ .Values.backend.http.port }}
-{{- else if eq .Values.backend.type "splunk" }}
+It will forward all container logs to the svc named {{ $.Values.backend.kafka.brokers }} on topic: {{ $.Values.backend.kafka.topics }}
+{{- else if eq . "http" }}
 
-It will forward all container logs to the svc named {{ .Values.backend.splunk.host }} on port: {{ .Values.backend.splunk.port }}
+It will forward all container logs to the svc named {{ $.Values.backend.http.host }} on port: {{ $.Values.backend.http.port }}
+{{- else if eq . "splunk" }}
+
+It will forward all container logs to the svc named {{ $.Values.backend.splunk.host }} on port: {{ $.Values.backend.splunk.port }}
+{{- end }}
 {{- end }}

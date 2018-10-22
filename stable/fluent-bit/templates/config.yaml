@@ -52,72 +52,84 @@ data:
 {{- if .Values.filter.enableExclude }}
         K8S-Logging.Exclude On
 {{- end }}
-{{ if eq .Values.backend.type "test" }}
+
+{{- range .Values.backend.type }}
+{{ if eq . "test" }}
     [OUTPUT]
         Name  file
         Match *
         Path /tmp/fluent-bit.log
-{{ else if eq .Values.backend.type "forward" }}
+{{ else if eq . "forward" }}
     [OUTPUT]
         Name          forward
         Match         *
-        Host          {{ .Values.backend.forward.host }}
-        Port          {{ .Values.backend.forward.port }}
+        Host          {{ $.Values.backend.forward.host }}
+        Port          {{ $.Values.backend.forward.port }}
         Retry_Limit False
-{{ else if eq .Values.backend.type "es" }}
+{{ else if eq . "es" }}
     [OUTPUT]
         Name  es
         Match *
-        Host  {{ .Values.backend.es.host }}
-        Port  {{ .Values.backend.es.port }}
+        Host  {{ $.Values.backend.es.host }}
+        Port  {{ $.Values.backend.es.port }}
         Logstash_Format On
         Retry_Limit False
-        Type  {{ .Values.backend.es.type }}
-{{- if .Values.backend.es.time_key }}
-        Time_Key {{ .Values.backend.es.time_key }}
+        Type  {{ $.Values.backend.es.type }}
+{{- if $.Values.backend.es.time_key }}
+        Time_Key {{ $.Values.backend.es.time_key }}
 {{- end }}
-{{ else if eq .Values.backend.type "splunk" }}
-    [OUTPUT]
-        Name  splunk
-        Match *
-        Host  {{ .Values.backend.splunk.host }}
-        Port  {{ .Values.backend.splunk.port }}
-        Splunk_Token  {{ .Values.backend.splunk.token }}
-        Splunk_Send_Raw {{ .Values.backend.splunk.send_raw}}
-        TLS   {{ .Values.backend.splunk.tls }}
-        TLS.Verify   {{ .Values.backend.splunk.tls_verify }}
-        Message_Key   {{ .Values.backend.splunk.message_key }}
-
-{{- if .Values.backend.es.logstash_prefix }}
-        Logstash_Prefix {{ .Values.backend.es.logstash_prefix }}
-{{ else if .Values.backend.es.index }}
-        Index {{ .Values.backend.es.index }}
+{{- if $.Values.backend.es.logstash_prefix }}
+        Logstash_Prefix {{ $.Values.backend.es.logstash_prefix }}
+{{ else if $.Values.backend.es.index }}
+        Index {{ $.Values.backend.es.index }}
 {{- end }}
-{{- if .Values.backend.es.http_user }}
-        HTTP_User {{ .Values.backend.es.http_user }}
-        HTTP_Passwd {{ .Values.backend.es.http_passwd }}
+{{- if $.Values.backend.es.http_user }}
+        HTTP_User {{ $.Values.backend.es.http_user }}
+        HTTP_Passwd {{ $.Values.backend.es.http_passwd }}
 {{- end }}
-{{if eq .Values.backend.es.tls "on" }}
-        tls {{ .Values.backend.es.tls }}
-        tls.verify {{ .Values.backend.es.tls_verify }}
-        tls.debug {{ .Values.backend.es.tls_debug }}
-{{- if .Values.backend.es.tls_ca }}
+{{if eq $.Values.backend.es.tls "on" }}
+        tls {{ $.Values.backend.es.tls }}
+        tls.verify {{ $.Values.backend.es.tls_verify }}
+        tls.debug {{ $.Values.backend.es.tls_debug }}
+{{- if $.Values.backend.es.tls_ca }}
         tls.ca_file /secure/es-tls-ca.crt
 {{- end }}
 {{- end }}
 
-{{ else if eq .Values.backend.type "http" }}
+{{ else if eq . "kafka" }}
+    [OUTPUT]
+        Name  kafka
+        Match *
+        Brokers     {{ $.Values.backend.kafka.brokers }}
+        Topics      {{ $.Values.backend.kafka.topics }}
+
+{{ else if eq . "splunk" }}
+    [OUTPUT]
+        Name  splunk
+        Match *
+        Host  {{ $.Values.backend.splunk.host }}
+        Port  {{ $.Values.backend.splunk.port }}
+        Splunk_Token  {{ $.Values.backend.splunk.token }}
+        Splunk_Send_Raw {{ $.Values.backend.splunk.send_raw}}
+        TLS   {{ $.Values.backend.splunk.tls }}
+        TLS.Verify   {{ $.Values.backend.splunk.tls_verify }}
+        Message_Key   {{ $.Values.backend.splunk.message_key }}
+
+{{ else if eq . "http" }}
     [OUTPUT]
         Name  http
         Match *
-        Host {{ .Values.backend.http.host }}
-        Port {{ .Values.backend.http.port }}
-        URI {{ .Values.backend.http.uri }}
-{{- if .Values.backend.http.proxy }}
-        Proxy {{ .Values.backend.http.proxy }}
+        Host {{ $.Values.backend.http.host }}
+        Port {{ $.Values.backend.http.port }}
+        URI {{ $.Values.backend.http.uri }}
+{{- if $.Values.backend.http.proxy }}
+        Proxy {{ $.Values.backend.http.proxy }}
 {{- end }}
-        Format {{ .Values.backend.http.format }}
+        Format {{ $.Values.backend.http.format }}
 {{- end }}
+
+{{- end }}
+
   parsers.conf: |-
 {{- if .Values.parsers.regex }}
 {{- range .Values.parsers.regex }}
