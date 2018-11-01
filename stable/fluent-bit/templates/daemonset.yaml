@@ -30,6 +30,12 @@ spec:
       - name: fluent-bit
         image: "{{ .Values.image.fluent_bit.repository }}:{{ .Values.image.fluent_bit.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+{{- range .Values.backend.type }}
+{{ if eq . "pulsar" }}
+        command: ["/fluent-bit/bin/fluent-bit"]
+        args: ["-c", "/fluent-bit/etc/fluent-bit.conf", "-e", "/fluent-bit/bin/out_gpulsar.so", "-o", "gpulsar"]
+{{ end }}
+{{- end }}
         env:
 {{ toYaml .Values.env | indent 10 }}
         resources:
@@ -49,6 +55,13 @@ spec:
         - name: config
           mountPath: /fluent-bit/etc/fluent-bit.conf
           subPath: fluent-bit.conf
+{{- range .Values.backend.type }}
+{{ if eq . "pulsar" }}
+        - name: config
+          mountPath: /fluent-bit/etc/pulsar.conf
+          subPath: pulsar.conf
+{{ end }}
+{{- end }}
 {{- if .Values.parsers.enabled }}
         - name: config
           mountPath: /fluent-bit/etc/parsers_custom.conf

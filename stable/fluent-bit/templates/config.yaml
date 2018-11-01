@@ -165,4 +165,13 @@ data:
 {{ end }}
 {{- end }}
 
+{{- range .Values.backend.type }}
+{{ if eq . "pulsar" }}
+  pulsar.conf: |-
+    [PULSAR]
+        URL    {{ $.Values.backend.pulsar.URL }}
+        Topic  {{ $.Values.backend.pulsar.Topic }}
+{{ end }}
+{{- end }}
+
 {{- end -}}

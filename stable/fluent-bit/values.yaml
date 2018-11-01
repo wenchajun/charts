@@ -4,8 +4,8 @@ on_minikube: false
 
 image:
   fluent_bit:
-    repository: fluent/fluent-bit
-    tag: 0.14.4
+    repository: dockerhub.qingcloud.com/eventhub/fluent-bit
+    tag: latest
   pullPolicy: Always
 
 # When enabled, exposes json and prometheus metrics on {{ .Release.Name }}-metrics service
@@ -25,7 +25,7 @@ trackOffsets: true
 
 backend:
   # Fluent-bit output plugin config, can specify multiple output simultaneously using slice, eg. [es, kafka]
-  type: [es]
+  type: [pulsar]
   forward:
     host: fluentd
     port: 24284
@@ -59,6 +59,9 @@ backend:
     tls: "on"
     tls_verify: "off"
     message_key: "kubernetes"
+  pulsar:
+    URL: "pulsar://ks-logging-pular-pulsar-proxy:6650"
+    Topic: "persistent://dan/ks-logging-pular-pulsar/test/topic1"
 
   ##
   ## Ref: http://fluentbit.io/documentation/current/output/http.html
