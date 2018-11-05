@@ -25,7 +25,7 @@ trackOffsets: true
 
 backend:
   # Fluent-bit output plugin config, can specify multiple output simultaneously using slice, eg. [es, kafka]
-  type: [pulsar]
+  type: [es]
   forward:
     host: fluentd
     port: 24284
