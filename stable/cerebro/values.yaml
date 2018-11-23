@@ -39,7 +39,7 @@ config:
   basePath: '/'
   restHistorySize: 50
   hosts:
-    - host: "http://ks-logging-elasticsearch-data.logging.svc:9200"
+    - host: "http://elasticsearch-logging-data.kubesphere-logging-system.svc:9200"
       name: "KubeSphere Elasticsearch"
 
   # Secret used to sign session cookies. If empty it will be replaced with a

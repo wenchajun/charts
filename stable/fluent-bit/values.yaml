@@ -30,7 +30,7 @@ backend:
     host: fluentd
     port: 24284
   es:
-    host: ks-logging-elasticsearch-data.logging.svc
+    host: elasticsearch-logging-data.kubesphere-logging-system.svc
     port: 9200
     # Elastic Index Name
     index: kubernetes_cluster
@@ -49,7 +49,7 @@ backend:
     # TLS debugging levels = 1-5
     tls_debug: 1
   kafka:
-    brokers: "ks-logging-kafka-headless.logging.svc:9092"
+    brokers: "kafka-headless.kubesphere-logging-system.svc:9092"
     topics: k8s-log
   splunk:
     host: 127.0.0.1
@@ -60,8 +60,8 @@ backend:
     tls_verify: "off"
     message_key: "kubernetes"
   pulsar:
-    URL: "pulsar://ks-logging-pular-pulsar-proxy:6650"
-    Topic: "persistent://dan/ks-logging-pular-pulsar/test/topic1"
+    URL: "pulsar://pular-logging-proxy:6650"
+    Topic: "persistent://k8s/pular-logging/test/topic1"
 
   ##
   ## Ref: http://fluentbit.io/documentation/current/output/http.html

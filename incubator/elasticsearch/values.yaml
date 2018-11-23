@@ -13,8 +13,8 @@ image:
 
 initImage:
   repository: "busybox"
-  tag: "latest"
-  pullPolicy: "Always"
+  tag: "1.29.3"
+  pullPolicy: "IfNotPresent"
 
 cluster:
   name: "elasticsearch"
@@ -54,8 +54,8 @@ master:
   tolerations: []
   resources:
     limits:
-      cpu: "1"
-      # memory: "1024Mi"
+      cpu: "2"
+      memory: "4096Mi"
     requests:
       cpu: "25m"
       memory: "512Mi"
@@ -94,8 +94,8 @@ data:
   tolerations: []
   resources:
     limits:
-      cpu: "1"
-      # memory: "2048Mi"
+     cpu: "4"
+     memory: "4096Mi"
     requests:
       cpu: "25m"
       memory: "1536Mi"
