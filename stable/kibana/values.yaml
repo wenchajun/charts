@@ -115,12 +115,10 @@ priorityClassName: ""
 
 # Tolerations for pod assignment
 # Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
-tolerations: []
-
+tolerations: [{key: "CriticalAddonsOnly", operator: "Exists"}, {key: "dedicated", value: "log", effect: "NoSchedule"}]
 # Node labels for pod assignment
 # Ref: https://kubernetes.io/docs/user-guide/node-selection/
 nodeSelector: {}
-
 podAnnotations: {}
 replicaCount: 1
 revisionHistoryLimit: 3

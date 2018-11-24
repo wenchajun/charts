@@ -91,7 +91,7 @@ data:
   antiAffinity: "soft"
   nodeAffinity: {}
   nodeSelector: {}
-  tolerations: []
+  tolerations: [{key: "CriticalAddonsOnly", operator: "Exists"}, {key: "dedicated", value: "log", effect: "NoSchedule"}]
   resources:
     limits:
      cpu: "4"
