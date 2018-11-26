@@ -5,8 +5,8 @@ on_minikube: false
 image:
   fluent_bit:
     repository: dockerhub.qingcloud.com/eventhub/fluent-bit
-    tag: latest
-  pullPolicy: Always
+    tag: 0.14.7
+  pullPolicy: IfNotPresent
 
 # When enabled, exposes json and prometheus metrics on {{ .Release.Name }}-metrics service
 metrics:
