@@ -14,7 +14,7 @@ pod:
   annotations: {}
 
 image:
-  repository: quay.io/pires/docker-elasticsearch-curator
+  repository: dockerhub.qingcloud.com/pires/docker-elasticsearch-curator
   tag: 5.5.4
   pullPolicy: IfNotPresent
 

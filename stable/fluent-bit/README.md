@@ -75,7 +75,7 @@ The following table lists the configurable parameters of the Fluent-Bit chart an
 | `filter.kubeCAFile`                | Optional custom configmaps       | `/var/run/secrets/kubernetes.io/serviceaccount/ca.crt`    |
 | `filter.kubeTokenFile`             | Optional custom configmaps       | `/var/run/secrets/kubernetes.io/serviceaccount/token`     |
 | `filter.kubeTag`                   | Optional top-level tag for matching in filter         | `kube`                                 |
-| `image.fluent_bit.repository`      | Image                                      | `fluent/fluent-bit`                               |
+| `image.fluent_bit.repository`      | Image                                      | `dockerhub.qingcloud.com/fluent/fluent-bit`                               |
 | `image.fluent_bit.tag`             | Image tag                                  | `0.14.4`                                          |
 | `image.pullPolicy`                 | Image pull policy                          | `IfNotPresent`                                          |
 | `image.pullSecrets`                | Specify image pull secrets                 | `nil`                                             |

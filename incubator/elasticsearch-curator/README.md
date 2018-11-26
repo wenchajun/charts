@@ -31,7 +31,7 @@ their default values.
 |          Parameter                   |                      Description                      |                   Default                    |
 | :----------------------------------- | :---------------------------------------------------- | :------------------------------------------- |
 | `image.pullPolicy`                   | Container pull policy                                 | `IfNotPresent`                               |
-| `image.repository`                   | Container image to use                                | `quay.io/pires/docker-elasticsearch-curator` |
+| `image.repository`                   | Container image to use                                | `dockerhub.qingcloud.com/pires/docker-elasticsearch-curator` |
 | `image.tag`                          | Container image tag to deploy                         | `5.5.4`                                      |
 | `cronjob.schedule`                   | Schedule for the CronJob                              | `0 1 * * *`                                  |
 | `cronjob.annotations`                | Annotations to add to the cronjob                     | {}                                           |

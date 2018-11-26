@@ -1,6 +1,6 @@
 # Elasticsearch Helm Chart
 
-This chart uses a standard Docker image of Elasticsearch (docker.elastic.co/elasticsearch/elasticsearch-oss) and uses a service pointing to the master's transport port for service discovery.
+This chart uses a standard Docker image of Elasticsearch (dockerhub.qingcloud.com/elasticsearch/elasticsearch-oss) and uses a service pointing to the master's transport port for service discovery.
 Elasticsearch does not communicate with the Kubernetes API, hence no need for RBAC permissions.
 
 ## Warning for previous users
@@ -63,7 +63,7 @@ The following table lists the configurable parameters of the elasticsearch chart
 |              Parameter               |                             Description                             |                       Default                       |
 | ------------------------------------ | ------------------------------------------------------------------- | --------------------------------------------------- |
 | `appVersion`                         | Application Version (Elasticsearch)                                 | `6.4.2`                                             |
-| `image.repository`                   | Container image name                                                | `docker.elastic.co/elasticsearch/elasticsearch-oss` |
+| `image.repository`                   | Container image name                                                | `dockerhub.qingcloud.com/elasticsearch/elasticsearch-oss` |
 | `image.tag`                          | Container image tag                                                 | `6.4.2`                                             |
 | `image.pullPolicy`                   | Container pull policy                                               | `IfNotPresent`                                      |
 | `initImage.repository`               | Init container image name                                           | `busybox`                                           |

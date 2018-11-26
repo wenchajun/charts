@@ -4,7 +4,7 @@ on_minikube: false
 
 image:
   fluent_bit:
-    repository: dockerhub.qingcloud.com/eventhub/fluent-bit
+    repository: dockerhub.qingcloud.com/fluent/fluent-bit
     tag: 0.14.7
   pullPolicy: IfNotPresent
 
