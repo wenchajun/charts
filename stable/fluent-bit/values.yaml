@@ -17,8 +17,8 @@ metrics:
 
 volumes:
   varlibdockercontainers:
-    mountPath: /data/var/lib/docker/containers
-    hostPath: /data/var/lib/docker/containers
+    mountPath: /var/lib/docker/containers
+    hostPath: /var/lib/docker/containers
 
 # When enabled, fluent-bit will keep track of tailing offsets across pod restarts.
 trackOffsets: true
