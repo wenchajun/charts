@@ -1,0 +1,17 @@
+apiVersion: v1
+description: A Fluentd Helm chart for Kubernetes Auditing.
+icon: https://raw.githubusercontent.com/fluent/fluentd-docs/master/public/logo/Fluentd_square.png
+name: fluentd-auditing
+version: 1.0.0
+appVersion: v1.3.3
+home: https://www.fluentd.org/
+sources:
+- https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch/fluentd-es-image
+- https://quay.io/repository/coreos/fluentd-kubernetes
+- https://github.com/coreos/fluentd-kubernetes-daemonset
+- https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html
+maintainers:
+- name: rendhalver
+  email: pete.brown@powerhrg.com
+- name: miouge1
+  email: maxime@root314.com

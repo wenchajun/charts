@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fluentd-auditing.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ template "fluentd-auditing.name" . }}
+    chart: {{ template "fluentd-auditing.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+{{- range $key, $value := .Values.configMaps }}
+  {{ $key }}: |-
+{{ $value | indent 4 }}
+{{- end }}

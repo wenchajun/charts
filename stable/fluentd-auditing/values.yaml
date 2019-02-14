@@ -1,0 +1,123 @@
+# Default values for fluentd-auditing.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+namespace: kubesphere-logging-system
+
+image:
+  repository: fluent/fluentd-kubernetes-daemonset
+  tag: v1.3.3-debian-elasticsearch-1.0
+  pullPolicy: IfNotPresent
+  # pullSecrets:
+  #   - secret1
+  #   - secret2
+
+output:
+  host: elasticsearch.kubesphere-logging-system.svc.cluster.local
+  port: 9200
+
+env: {}
+
+annotations: {}
+#  prometheus.io/scrape: "true"
+#  prometheus.io/port: "24231"
+
+configMaps:
+  fluent.conf: |
+    # Prevent fluentd from handling records containing its own logs. Otherwise
+    # it can lead to an infinite loop, when error in sending one message generates
+    # another message which also fails to be sent and so on.
+    <match fluentd.**>
+      @type null
+    </match>
+
+    # Handle Kubernetes audit logs
+    <source>
+      @type tail
+      tag audit
+      path /var/log/audit/audit.log
+      pos_file /var/log/fluentd-audit.log.pos
+      # For testing with static log files
+      # read_from_head true
+      <parse>
+        @type json
+        time_format %Y-%m-%dT%H:%M:%S.%NZ
+        time_type string
+      </parse>
+    </source>
+    <filter audit>
+      @type record_transformer
+      enable_ruby true
+      renew_record true
+      keep_keys auditID,requestURI,verb,username,sourceIP,resourceName,resourceKind,resourceNamespace,responseStatus,request,response,requestReceivedTimestamp
+      <record>
+        request ${record.dig("requestObject","spec")}
+        response ${record.dig("responseObject","spec")}
+        username ${record.dig("user","username")}
+        resourceName ${record.dig("objectRef","name")}
+        resourceKind ${record.dig("objectRef","resource")}
+        resourceNamespace ${record.dig("objectRef","namespace")}
+        responseStatus ${record.dig("responseStatus","code")}
+      </record>
+    </filter>
+    <match audit>
+      @type elasticsearch
+      host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+      port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+      type_name _doc
+      logstash_prefix auditing
+      logstash_format true
+      template_name ks-audit
+      template_file /fluentd/etc/template.conf
+      <buffer>
+        flush_thread_count "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_FLUSH_THREAD_COUNT'] || '8'}"
+        flush_interval "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_FLUSH_INTERVAL'] || '5s'}"
+        chunk_limit_size "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_CHUNK_LIMIT_SIZE'] || '2M'}"
+        queue_limit_length "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_QUEUE_LIMIT_LENGTH'] || '32'}"
+        retry_max_interval "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_RETRY_MAX_INTERVAL'] || '30'}"
+        retry_forever true
+      </buffer>
+    </match>
+  template.conf: |
+    {
+      "index_patterns": "auditing-*",
+      "mappings": {
+        "_doc": {
+          "dynamic_templates": [
+            {
+              "longs": {
+                "match_mapping_type": "long",
+                "mapping": {
+                  "type": "text"
+                }
+              }
+            },
+            {
+              "doubles": {
+                "match_mapping_type": "double",
+                "mapping": {
+                  "type": "text"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 500m
+  #  memory: 200Mi
+  # requests:
+  #  cpu: 500m
+  #  memory: 200Mi
+
+nodeSelector: {role: master}
+
+tolerations: [{key: "node-role.kubernetes.io/master", operator: "Exists", effect: "NoSchedule"}]
+
+affinity: {}
