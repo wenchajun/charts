@@ -1,4 +1,4 @@
-# Default values for fluentd-auditing.
+# Default values for fluentd.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 namespace: kubesphere-logging-system
@@ -48,7 +48,7 @@ configMaps:
       @type record_transformer
       enable_ruby true
       renew_record true
-      keep_keys auditID,requestURI,verb,username,sourceIP,resourceName,resourceKind,resourceNamespace,responseStatus,request,response,requestReceivedTimestamp
+      keep_keys auditID,requestURI,verb,username,sourceIPs,resourceName,resourceKind,resourceNamespace,responseStatus,request,response,timestamp,stage
       <record>
         request ${record.dig("requestObject","spec")}
         response ${record.dig("responseObject","spec")}
@@ -66,6 +66,8 @@ configMaps:
       type_name _doc
       logstash_prefix auditing
       logstash_format true
+      time_key timestamp
+      time_key_exclude_timestamp true
       template_name ks-audit
       template_file /fluentd/etc/template.conf
       <buffer>
